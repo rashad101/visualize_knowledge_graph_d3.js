@@ -1,6 +1,6 @@
 
-var w = 700;
-var h = 400;
+var w = 830;
+var h = 480;
 var linkDistance=200;
 
 var colors = d3.scale.category10();
@@ -8,49 +8,45 @@ var linkedByIndex = {};
 var dataset = {
 
 nodes: [
-        {name: "Adam"},
-        {name: "Bob"},
-        {name: "Carrie"},
-        {name: "Donovan"},
-        {name: "Edward"},
-        {name: "Felicity"},
-        {name: "George"},
-        {name: "Hannah"},
-        {name: "Iris"},
-        {name: "Jerry"}
+        {name: "Dhaka"}, //0
+        {name: "Rangpur"},    //1
+        {name: "Rajsahi"},      //2
+        {name: "Kushtia"},    //3
+        {name: "Poradoha"},     //4
+        {name: "Charpara"},    //5
+        {name: "Hridoypur"},      //6
+        {name: "Khulna"},    //7
+        {name: "Syhlet"},    //8
+        {name: "Chittagong"}    //9
     ],
 
     edges: [
-    {source: 0, target: 1, weight: "a"},
-    {source: 0, target: 2, weight: "b"},
-    {source: 0, target: 3, weight: "c"},
-    {source: 0, target: 4, weight: "d"},
-    {source: 1, target: 5, weight: "e"},
-    {source: 2, target: 5, weight: "f"},
-    {source: 2, target: 5, weight: "g"},
-    {source: 3, target: 4, weight: "h"},
-    {source: 5, target: 8, weight: "i"},
-    {source: 5, target: 9, weight: "j"},
-    {source: 6, target: 7, weight: "k"},
-    {source: 7, target: 8, weight: "l"},
-    {source: 8, target: 9, weight: "m"}
+    {source: 0, target: 8, weight: "300km"},
+    {source: 0, target: 1, weight: "450km"},
+    {source: 0, target: 2, weight: "250km"},
+    {source: 2, target: 1, weight: "200km"},
+    {source: 2, target: 3, weight: "90km"},
+    {source: 3, target: 4, weight: "15km"},
+    {source: 3, target: 5, weight: "20km"},
+    {source: 3, target: 6, weight: "22km"},
+    {source: 1, target: 9, weight: "380km"},
+    {source: 1, target: 7, weight: "450km"},
+    {source: 3, target: 7, weight: "200km"}
     ]
     };
 
 var connection = {
+    "0_8":1,
     "0_1":1,
     "0_2":1,
-    "0_3":1,
-    "0_4":1,
-    "1_5":1,
-    "2_5":1,
-    "2_5":1,
+    "2_1":1,
+    "2_3":1,
     "3_4":1,
-    "5_8":1,
-    "5_9":1,
-    "6_7":1,
-    "7_8":1,
-    "8_9":1,
+    "3_5":1,
+    "3_6":1,
+    "1_9":1,
+    "1_7":1,
+    "3_7":1,
 };
 
 
@@ -61,9 +57,9 @@ var connection = {
         .links(dataset.edges)
         .size([w,h])
         .linkDistance([linkDistance])
-        .charge([-350])
+        .charge([-300])
         .theta(0.1)
-        .gravity(0.1)
+        .gravity(0.05)
         .start();
 
 
@@ -81,7 +77,7 @@ var connection = {
       .data(dataset.nodes)
       .enter()
       .append("circle")
-      .attr({"r":18})
+      .attr({"r":20})
       .style("fill",function(d,i){return colors(i);})
       .on("mouseover", mouseover)
       .on("mouseout", mouseout)
@@ -159,7 +155,7 @@ var connection = {
         });
 
         nodelabels.attr("x", function(d) { return d.x-18; })
-                  .attr("y", function(d) { return d.y-20; });
+                  .attr("y", function(d) { return d.y-30; });
 
         edgepaths.attr('d', function(d) { var path='M '+d.source.x+' '+d.source.y+' L '+ d.target.x +' '+d.target.y;
                                            return path});
@@ -184,7 +180,7 @@ function neighboring(a, b) {
 }
 
 function mouseover(d) {
-	d3.selectAll("circle").attr("r",20).style("stroke","black").style("stroke-width",2.5);
+	d3.selectAll("circle").attr("r",25).style("stroke","black").style("stroke-width",2.5);
     d3.selectAll("line").style("stroke","black").style("stroke-width",2);
     d3.selectAll(".edgelabel").transition().duration(500)
         .style("opacity", function(o) {
@@ -201,7 +197,7 @@ function mouseover(d) {
 }
 
 function mouseout() {
-  	d3.selectAll("circle").attr("r",15).style("stroke","white");
+  	d3.selectAll("circle").attr("r",20).style("stroke","white");
     d3.selectAll("line").style("stroke","black").style("stroke-width",1);
     d3.selectAll("line").transition().duration(500).style("opacity", 1);
     d3.selectAll("circle").transition().duration(500).style("opacity", 1);
@@ -209,3 +205,4 @@ function mouseout() {
     d3.selectAll("textPath").transition().duration(500).style("opacity", 1);
 
 }
+
